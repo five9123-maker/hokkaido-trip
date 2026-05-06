@@ -112,11 +112,7 @@
       border: 1px solid var(--border);
       transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
-    .day-nav a:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
+    .day-nav a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
     /* ── CONTAINER ── */
     .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
@@ -131,67 +127,14 @@
       border-bottom: 2px solid var(--border);
     }
 
-    /* ── MAP ── */
+    /* ── MAIN MAP ── */
     .map-section { padding: 48px 0; }
     #map {
-      height: 480px;
+      height: 420px;
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 8px 32px var(--shadow);
       border: 1px solid var(--border);
-    }
-    @media (prefers-color-scheme: dark) {
-      .leaflet-tile { filter: brightness(0.55) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7); }
-    }
-
-    /* ── Leaflet layer control 커스텀 스타일 ── */
-    .leaflet-control-layers {
-      border-radius: 12px !important;
-      border: 1px solid var(--border) !important;
-      box-shadow: 0 4px 16px var(--shadow) !important;
-      background: var(--bg-card) !important;
-      font-family: inherit !important;
-      font-size: 0.82rem !important;
-      overflow: hidden !important;
-    }
-    .leaflet-control-layers-toggle {
-      background-color: var(--accent) !important;
-      border-radius: 10px !important;
-    }
-    .leaflet-control-layers-expanded {
-      padding: 8px 10px !important;
-      color: var(--text) !important;
-      min-width: 170px !important;
-    }
-    .leaflet-control-layers-separator {
-      border-color: var(--border) !important;
-      margin: 4px 0 !important;
-    }
-    .leaflet-control-layers label {
-      display: flex !important;
-      align-items: center !important;
-      gap: 7px !important;
-      padding: 3px 4px !important;
-      cursor: pointer !important;
-      border-radius: 6px !important;
-    }
-    .leaflet-control-layers label:hover { background: var(--bg-section) !important; }
-    .leaflet-control-layers-overlays span { font-weight: 600; }
-    .leaflet-popup-content-wrapper {
-      border-radius: 12px !important;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
-      font-family: inherit !important;
-    }
-    .leaflet-popup-content { margin: 10px 14px !important; font-size: 0.88rem; line-height: 1.5; }
-    .spot-tag {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 1px 7px;
-      border-radius: 4px;
-      color: #fff;
-      margin-right: 3px;
-      vertical-align: middle;
     }
 
     /* ── DAY CARDS ── */
@@ -202,19 +145,24 @@
       overflow: hidden;
       box-shadow: 0 4px 20px var(--shadow);
       border: 1px solid var(--border);
-      margin-bottom: 32px;
+      margin-bottom: 40px;
       display: grid;
       grid-template-columns: 1fr;
       transition: transform 0.25s, box-shadow 0.25s;
     }
     .day-card:hover { transform: translateY(-3px); box-shadow: 0 10px 36px var(--shadow); }
+
     @media (min-width: 640px) {
-      .day-card { grid-template-columns: 280px 1fr; }
+      .day-card {
+        grid-template-columns: 260px 1fr;
+        grid-template-rows: auto auto;
+      }
       .day-card.rev .card-img { order: 2; }
       .day-card.rev .card-body { order: 1; }
     }
+
     .card-img { height: 220px; overflow: hidden; flex-shrink: 0; }
-    @media (min-width: 640px) { .card-img { height: auto; min-height: 260px; } }
+    @media (min-width: 640px) { .card-img { height: auto; min-height: 240px; } }
     .card-img img {
       width: 100%; height: 100%;
       object-fit: cover;
@@ -222,7 +170,48 @@
       display: block;
     }
     .day-card:hover .card-img img { transform: scale(1.05); }
-    .card-body { padding: 26px 28px; }
+
+    .card-body { padding: 24px 26px; }
+
+    /* Mini-map: always last, full width */
+    .card-map {
+      order: 99;
+      grid-column: 1 / -1;
+      height: 260px;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    @media (max-width: 639px) { .card-map { height: 220px; } }
+
+    /* map legend row */
+    .map-legend {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      z-index: 400;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      pointer-events: none;
+    }
+    .map-legend span {
+      background: rgba(255,255,255,0.92);
+      border-radius: 20px;
+      padding: 3px 9px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+      color: #333;
+    }
+    .legend-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     .day-badge {
       display: inline-flex;
       align-items: center;
@@ -236,7 +225,7 @@
       margin-bottom: 12px;
     }
     .card-title {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 14px;
@@ -244,49 +233,40 @@
     }
     .acts { list-style: none; }
     .acts li {
-      padding: 5px 0 5px 22px;
+      padding: 4px 0 4px 20px;
       position: relative;
       color: var(--text);
-      font-size: 0.93rem;
+      font-size: 0.91rem;
     }
-    .acts li::before { content: '›'; position: absolute; left: 6px; color: var(--accent); font-weight: 700; font-size: 1rem; }
+    .acts li::before { content: '›'; position: absolute; left: 5px; color: var(--accent); font-weight: 700; font-size: 1rem; }
     .acts li.note {
-      padding: 8px 14px;
+      padding: 8px 12px;
       background: var(--bg-section);
       border-radius: 10px;
       margin-top: 10px;
       font-style: italic;
       color: var(--text-muted);
-      font-size: 0.88rem;
+      font-size: 0.87rem;
     }
     .acts li.note::before { display: none; }
     .tag {
       display: inline-block;
       border-radius: 6px;
       padding: 2px 9px;
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       font-weight: 700;
       margin-right: 5px;
       color: #fff;
     }
-    .tag.food { background: linear-gradient(135deg, #ff9a3c, #e05c20); }
+    .tag.food  { background: linear-gradient(135deg, #ff9a3c, #e05c20); }
     .tag.onsen { background: linear-gradient(135deg, #48cae4, #0096c7); }
-    .tag.stay { background: linear-gradient(135deg, #52b788, #2d6a4f); }
-    .tag.shop { background: linear-gradient(135deg, #b5838d, #6d2b3d); }
+    .tag.stay  { background: linear-gradient(135deg, #52b788, #2d6a4f); }
+    .tag.shop  { background: linear-gradient(135deg, #b5838d, #6d2b3d); }
 
     /* ── TIPS ── */
     .tips-section { background: var(--bg-section); padding: 52px 0; }
-    .tips-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 18px;
-    }
-    .tip-card {
-      background: var(--bg-card);
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid var(--border);
-    }
+    .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .tip-card { background: var(--bg-card); border-radius: 16px; padding: 24px; border: 1px solid var(--border); }
     .tip-icon { font-size: 2rem; margin-bottom: 10px; }
     .tip-title { font-size: 0.97rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
     .tip-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
@@ -301,6 +281,23 @@
       line-height: 1.9;
     }
     footer strong { color: #fff; }
+
+    /* ── Leaflet 공통 ── */
+    @media (prefers-color-scheme: dark) {
+      .leaflet-tile { filter: brightness(0.55) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7); }
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+      font-family: inherit !important;
+    }
+    .leaflet-popup-content { margin: 10px 14px !important; font-size: 0.86rem; line-height: 1.5; }
+    .leaflet-control-zoom { border: none !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; }
+    .leaflet-control-zoom a {
+      border-radius: 8px !important;
+      color: var(--accent) !important;
+      font-weight: 700 !important;
+    }
   </style>
 </head>
 <body>
@@ -321,22 +318,17 @@
 <!-- ═══════════ STICKY NAV ═══════════ -->
 <nav class="day-nav" aria-label="일정 바로가기">
   <div class="day-nav-scroll">
-    <a href="#day1">Day 1</a>
-    <a href="#day2">Day 2</a>
-    <a href="#day3">Day 3</a>
-    <a href="#day4">Day 4</a>
-    <a href="#day5">Day 5</a>
-    <a href="#day6">Day 6</a>
-    <a href="#day7">Day 7</a>
-    <a href="#day8">Day 8</a>
+    <a href="#day1">Day 1</a><a href="#day2">Day 2</a><a href="#day3">Day 3</a>
+    <a href="#day4">Day 4</a><a href="#day5">Day 5</a><a href="#day6">Day 6</a>
+    <a href="#day7">Day 7</a><a href="#day8">Day 8</a>
     <a href="#tips">💡 여행 팁</a>
   </div>
 </nav>
 
-<!-- ═══════════ MAP ═══════════ -->
+<!-- ═══════════ MAIN ROUTE MAP ═══════════ -->
 <section class="map-section">
   <div class="container">
-    <h2 class="section-title">🗺️ 전체 루트 &amp; 추천 스팟</h2>
+    <h2 class="section-title">🗺️ 전체 루트</h2>
     <div id="map"></div>
   </div>
 </section>
@@ -346,11 +338,10 @@
   <div class="container">
     <h2 class="section-title">📅 일정표</h2>
 
-    <!-- Day 1 -->
+    <!-- ── Day 1 ── -->
     <article class="day-card" id="day1">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/SapporoCity_Skylines2020.jpg/500px-SapporoCity_Skylines2020.jpg"
-             alt="삿포로 스카이라인" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/SapporoCity_Skylines2020.jpg/500px-SapporoCity_Skylines2020.jpg" alt="삿포로" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">🛬 Day 1</div>
@@ -360,60 +351,65 @@
           <li>오도리 공원 산책 — TV탑 전망대 (¥1,000)</li>
           <li>삿포로 라멘 횡초 — 8개 라멘 가게 모인 골목</li>
           <li><span class="tag food">먹방</span> 스프카레 — 홋카이도 대표 소울푸드</li>
-          <li><span class="tag food">먹방</span> 카이센동 — 성게·연어알·게 올린 해산물 덮밥</li>
-          <li><span class="tag food">먹방</span> 징기스칸 — 양고기 구이, 꼭 맥주랑 함께</li>
-          <li>밤: 스스키노 거리 야경 산책</li>
-          <li class="note">✈️ 설레는 첫날. 공항에서 렌터카 받는 순간부터 여행 시작!</li>
+          <li><span class="tag food">먹방</span> 카이센동 — 성게·연어알·게</li>
+          <li><span class="tag food">먹방</span> 징기스칸 — 양고기 구이 + 생맥주</li>
+          <li>밤: 스스키노 야경 산책</li>
+          <li class="note">✈️ 설레는 첫날. 렌터카 받는 순간부터 여행 시작!</li>
         </ul>
+      </div>
+      <div class="card-map" id="mini-map-1">
+        <div class="map-legend" id="legend-1"></div>
       </div>
     </article>
 
-    <!-- Day 2 -->
+    <!-- ── Day 2 ── -->
     <article class="day-card rev" id="day2">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Otaru_Montage.jpg/500px-Otaru_Montage.jpg"
-             alt="오타루 운하" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Otaru_Montage.jpg/500px-Otaru_Montage.jpg" alt="오타루 운하" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">🛶 Day 2</div>
         <h3 class="card-title">오타루 감성 데이트</h3>
         <ul class="acts">
           <li>삿포로 → 오타루 (드라이브 약 40분)</li>
-          <li>오타루 운하 — 석양 무렵 골든아워 놓치지 말 것</li>
+          <li>오타루 운하 — 석양 골든아워 놓치지 말 것</li>
           <li>사카이마치 거리 — 레트로 벽돌 건물 산책</li>
-          <li>키타이치 유리 / 오타루 오르골당 구경</li>
-          <li>오타루 수족관 (시간 여유 있으면)</li>
+          <li>키타이치 유리관 / 오타루 오르골당</li>
           <li><span class="tag food">먹방</span> 르타오 더블 프로마쥬 + 오타루 스시</li>
           <li><span class="tag stay">숙박</span> 오타루 운하 근처 부티크 호텔</li>
           <li class="note">🌙 일몰 시간 미리 확인 — 운하 석양이 이 여행 베스트 사진!</li>
         </ul>
       </div>
+      <div class="card-map" id="mini-map-2">
+        <div class="map-legend" id="legend-2"></div>
+      </div>
     </article>
 
-    <!-- Day 3 -->
+    <!-- ── Day 3 ── -->
     <article class="day-card" id="day3">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Shirogane_Blue_Pond_by_night%2C_April_2023_06.jpg/500px-Shirogane_Blue_Pond_by_night%2C_April_2023_06.jpg"
-             alt="청의 호수(시로가네)" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Shirogane_Blue_Pond_by_night%2C_April_2023_06.jpg/500px-Shirogane_Blue_Pond_by_night%2C_April_2023_06.jpg" alt="청의 호수" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">🌊 Day 3</div>
         <h3 class="card-title">비에이 드라이브 — 청의 호수</h3>
         <ul class="acts">
           <li>오타루 → 비에이 (드라이브 약 2시간 30분)</li>
-          <li>청의 호수(시로가네 블루폰드) — 에메랄드빛 신비로운 호수</li>
+          <li>청의 호수(시로가네 블루폰드) — 에메랄드빛 신비 호수</li>
           <li>패치워크의 길 — 켄과 메리의 나무, 마일드 세분 언덕</li>
-          <li>비에이 언덕길 따라 느긋한 드라이브</li>
-          <li class="note">🚗 "차 안 분위기가 진짜 좋음. 음악 틀고 창문 조금 열고 시골길 달리는 느낌" — 커플 여행 최고 포인트</li>
+          <li>비에이 역 근처 카페에서 커피 한 잔</li>
+          <li class="note">🚗 "차 안 분위기가 진짜 좋음. 음악 틀고 창문 열고 시골길 달리는 느낌"</li>
         </ul>
+      </div>
+      <div class="card-map" id="mini-map-3">
+        <div class="map-legend" id="legend-3"></div>
       </div>
     </article>
 
-    <!-- Day 4 -->
+    <!-- ── Day 4 ── -->
     <article class="day-card rev" id="day4">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/%E3%83%95%E3%82%A1%E3%83%BC%E3%83%A0%E5%AF%8C%E7%94%B0%EF%BC%88Farm_Tomita%EF%BC%89_-_panoramio_%282%29.jpg/500px-%E3%83%95%E3%82%A1%E3%83%BC%E3%83%A0%E5%AF%8C%E7%94%B0%EF%BC%88Farm_Tomita%EF%BC%89_-_panoramio_%282%29.jpg"
-             alt="팜 도미타 라벤더" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/%E3%83%95%E3%82%A1%E3%83%BC%E3%83%A0%E5%AF%8C%E7%94%B0%EF%BC%88Farm_Tomita%EF%BC%89_-_panoramio_%282%29.jpg/500px-%E3%83%95%E3%82%A1%E3%83%BC%E3%83%A0%E5%AF%8C%E7%94%B0%EF%BC%88Farm_Tomita%EF%BC%89_-_panoramio_%282%29.jpg" alt="팜 도미타 라벤더" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">💜 Day 4</div>
@@ -421,20 +417,22 @@
         <ul class="acts">
           <li>비에이 → 후라노 (드라이브 약 40분)</li>
           <li>팜 도미타 — 라벤더밭 (6~7월 최성수기, 입장 무료)</li>
-          <li>닝구르 테라스 — 숲속 갤러리 & 공예 숍 (신후라노 프린스 호텔 내)</li>
-          <li>후라노 마르쉐 — 현지 농산물·잼·공예품 마켓</li>
-          <li><span class="tag food">먹방</span> 홋카이도 우유 푸딩·소프트크림·치즈케이크</li>
+          <li>닝구르 테라스 — 숲속 갤러리 & 공예 숍</li>
+          <li>후라노 마르쉐 — 현지 농산물·잼 마켓</li>
+          <li><span class="tag food">먹방</span> 치즈공방 아이스크림 + 우유 소프트크림</li>
           <li><span class="tag stay">숙박</span> 후라노 료칸 or 숲뷰 호텔</li>
           <li class="note">🍦 우유 소프트크림은 팜 도미타 현장이 베스트!</li>
         </ul>
       </div>
+      <div class="card-map" id="mini-map-4">
+        <div class="map-legend" id="legend-4"></div>
+      </div>
     </article>
 
-    <!-- Day 5 -->
+    <!-- ── Day 5 ── -->
     <article class="day-card" id="day5">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/HPIM2742.JPG/500px-HPIM2742.JPG"
-             alt="소운쿄 협곡" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/HPIM2742.JPG/500px-HPIM2742.JPG" alt="소운쿄 협곡" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">♨️ Day 5</div>
@@ -443,75 +441,82 @@
           <li>후라노 → 소운쿄 (드라이브 약 2시간)</li>
           <li>소운쿄 협곡 산책 — 층암절벽과 폭포의 대자연</li>
           <li>류세이노타키(유성 폭포) & 긴가노타키(은하 폭포) 트레킹</li>
-          <li>소운쿄 로프웨이 — 협곡 전망 (¥2,000)</li>
-          <li><span class="tag onsen">온천</span> 산속 노천탕 — 6월 초 서늘한 밤공기 + 온천 최고</li>
-          <li><span class="tag stay">숙박</span> 료칸 (객실 전용 노천탕 있는 곳 강력 추천)</li>
-          <li class="note">🏔️ 대욕장은 이른 저녁·새벽에 한산함. 카시키리(전세 노천탕) 좋음.</li>
+          <li>소운쿄 로프웨이 — 협곡 파노라마 (¥2,000)</li>
+          <li><span class="tag onsen">온천</span> 산속 노천탕 — 밤공기 + 온천 최고 조합</li>
+          <li><span class="tag stay">숙박</span> 객실 전용 노천탕 있는 료칸 강력 추천</li>
+          <li class="note">🏔️ 대욕장은 이른 저녁·새벽에 한산. 카시키리(전세 노천탕) 추천.</li>
         </ul>
+      </div>
+      <div class="card-map" id="mini-map-5">
+        <div class="map-legend" id="legend-5"></div>
       </div>
     </article>
 
-    <!-- Day 6 -->
+    <!-- ── Day 6 ── -->
     <article class="day-card rev" id="day6">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/130922_Lake_Toya_Toyako_Hokkaido_Japan03s3.jpg/500px-130922_Lake_Toya_Toyako_Hokkaido_Japan03s3.jpg"
-             alt="도야호" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/130922_Lake_Toya_Toyako_Hokkaido_Japan03s3.jpg/500px-130922_Lake_Toya_Toyako_Hokkaido_Japan03s3.jpg" alt="도야호" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">🏞️ Day 6</div>
         <h3 class="card-title">도야호 리조트 감성</h3>
         <ul class="acts">
-          <li>소운쿄 → 도야호 (약 3시간 30분, 긴 이동이지만 도착하면 만족도 최고)</li>
-          <li>쇼와신잔 — 1943년 분화로 솟아오른 화산 (우스산 전체가 세계지질공원)</li>
-          <li>우스산 로프웨이 — 정상에서 도야호 파노라마 전망</li>
-          <li>도야호 유람선 — 섬 일주 (¥1,500)</li>
+          <li>소운쿄 → 도야호 (약 3시간 30분, 도착하면 만족도 최고)</li>
+          <li>쇼와신잔 — 1943년 분화로 솟아오른 기생 화산</li>
+          <li>우스산 로프웨이 — 정상에서 도야호 파노라마 (¥1,800)</li>
+          <li>도야호 유람선 — 나카지마섬 일주 약 50분 (¥1,500)</li>
           <li><span class="tag onsen">온천</span> 도야호 전망 노천탕</li>
           <li><span class="tag stay">숙박</span> 도야 호수뷰 호텔 ⭐ 강력 추천</li>
-          <li class="note">🌅 석양 + 다음날 아침 안개 콤보가 진짜 압도적.</li>
+          <li class="note">🌅 석양 + 아침 안개 콤보가 압도적. 테라스 시간 꼭 확보할 것.</li>
         </ul>
+      </div>
+      <div class="card-map" id="mini-map-6">
+        <div class="map-legend" id="legend-6"></div>
       </div>
     </article>
 
-    <!-- Day 7 -->
+    <!-- ── Day 7 ── -->
     <article class="day-card" id="day7">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Jigokudani_%28Hell_Valley%29%2C_Noboribetsu_Onsen%2C_Hokkaido%2C_April_2023_27.jpg/500px-Jigokudani_%28Hell_Valley%29%2C_Noboribetsu_Onsen%2C_Hokkaido%2C_April_2023_27.jpg"
-             alt="노보리베츠 지고쿠다니(지옥계곡)" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Jigokudani_%28Hell_Valley%29%2C_Noboribetsu_Onsen%2C_Hokkaido%2C_April_2023_27.jpg/500px-Jigokudani_%28Hell_Valley%29%2C_Noboribetsu_Onsen%2C_Hokkaido%2C_April_2023_27.jpg" alt="지고쿠다니" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">🔥 Day 7</div>
         <h3 class="card-title">노보리베츠 + 삿포로 먹방 마무리</h3>
         <ul class="acts">
-          <li>도야호 → 노보리베츠 (드라이브 약 1시간)</li>
-          <li>지고쿠다니(지옥계곡) — 유황 연기 피어오르는 화산 지형 (무료)</li>
-          <li>오유누마 — 천연 유황 연못 산책로</li>
-          <li>노보리베츠 곰 목장 — 시간 여유 있으면 (¥2,800)</li>
+          <li>도야호 → 노보리베츠 (약 1시간)</li>
+          <li>지고쿠다니(지옥계곡) — 유황 연기 화산 지형 (무료)</li>
+          <li>오유누마 천연 족탕 — 무료 족욕 체험</li>
           <li>노보리베츠 → 삿포로 이동 (약 1시간 30분)</li>
-          <li><span class="tag food">먹방</span> 미소라멘 — 삿포로가 원조</li>
+          <li><span class="tag food">먹방</span> 미소라멘 (삿포로 원조)</li>
           <li><span class="tag food">먹방</span> 게요리 & 해산물 이자카야</li>
           <li class="note">🍜 마지막 밤이니까 제일 먹고 싶은 거 다 먹기!</li>
         </ul>
       </div>
+      <div class="card-map" id="mini-map-7">
+        <div class="map-legend" id="legend-7"></div>
+      </div>
     </article>
 
-    <!-- Day 8 -->
+    <!-- ── Day 8 ── -->
     <article class="day-card rev" id="day8">
       <div class="card-img">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Shinchitose.aierial_shoot.jpg/500px-Shinchitose.aierial_shoot.jpg"
-             alt="신치토세 공항" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Shinchitose.aierial_shoot.jpg/500px-Shinchitose.aierial_shoot.jpg" alt="신치토세 공항" loading="lazy">
       </div>
       <div class="card-body">
         <div class="day-badge">✈️ Day 8</div>
-        <h3 class="card-title">삿포로 → 신치토세 → 귀국</h3>
+        <h3 class="card-title">삿포로 아침 → 신치토세 → 귀국</h3>
         <ul class="acts">
-          <li>아침 여유 시간 — 삿포로 아침 시장 or 니조 시장</li>
-          <li>렌터카 반납 (공항 반납 or 삿포로 시내 반납 미리 확인)</li>
-          <li>신치토세 공항 — 마지막 쇼핑 타임</li>
-          <li><span class="tag shop">쇼핑</span> 로이즈 초콜릿, 시로이 코이비토, 마루세이 버터 샌드</li>
-          <li><span class="tag shop">쇼핑</span> 공항 지하 식료품 — 라면·과자 대량 구매</li>
+          <li>니조 시장 아침 식사 — 새벽 5시부터 영업, 카이센동 강추</li>
+          <li>삿포로역 지하상가 — 마지막 기념품 쇼핑</li>
+          <li>렌터카 반납 (공항 or 시내 반납 미리 확인)</li>
+          <li><span class="tag shop">쇼핑</span> 신치토세 공항 — 로이즈, 시로이 코이비토, 마루세이 버터 샌드</li>
           <li>귀국행 비행기 탑승</li>
           <li class="note">💕 7박8일 수고했어요! 다음엔 겨울 홋카이도 어떨까요?</li>
         </ul>
+      </div>
+      <div class="card-map" id="mini-map-8">
+        <div class="map-legend" id="legend-8"></div>
       </div>
     </article>
 
@@ -536,12 +541,12 @@
       <div class="tip-card">
         <div class="tip-icon">🚗</div>
         <div class="tip-title">렌터카 꿀팁</div>
-        <div class="tip-text">ETC 카드 신청 필수. 네비는 일본어 설정 or 구글맵 오프라인 다운로드 준비. 셀프 주유소가 훨씬 저렴.</div>
+        <div class="tip-text">ETC 카드 신청 필수. 구글맵 오프라인 다운로드 준비. 셀프 주유소가 훨씬 저렴.</div>
       </div>
       <div class="tip-card">
         <div class="tip-icon">♨️</div>
         <div class="tip-title">온천 에티켓</div>
-        <div class="tip-text">타투 있으면 사전 확인 필수. 대욕장 피크는 저녁 식사 전후. 전세 노천탕(카시키리) 있는 곳 추천.</div>
+        <div class="tip-text">타투 있으면 사전 확인 필수. 대욕장 피크는 저녁 식사 전후. 전세 노천탕(카시키리) 추천.</div>
       </div>
       <div class="tip-card">
         <div class="tip-icon">📅</div>
@@ -551,7 +556,7 @@
       <div class="tip-card">
         <div class="tip-icon">💴</div>
         <div class="tip-title">현금 준비</div>
-        <div class="tip-text">지방 온천 마을은 카드 안 받는 곳 많다. 현금 여유 있게 준비. 7-Eleven 등 편의점 ATM으로 인출 가능.</div>
+        <div class="tip-text">지방 온천 마을은 카드 안 받는 곳 많다. 7-Eleven 등 편의점 ATM으로 인출 가능.</div>
       </div>
     </div>
   </div>
@@ -560,164 +565,160 @@
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
   <strong>홋카이도 7박8일 커플 렌터카 여행 일정표</strong><br>
-  이미지 출처: Wikimedia Commons (CC BY-SA) &nbsp;|&nbsp; 지도: © OpenStreetMap contributors, Leaflet<br>
-  <span style="font-size:0.78rem; opacity:0.55;">개인 여행 참고용. 현지 정보는 출발 전 반드시 최신 정보로 확인하세요.</span>
+  이미지: Wikimedia Commons (CC BY-SA) &nbsp;|&nbsp; 지도: © OpenStreetMap contributors, Leaflet<br>
+  <span style="font-size:0.78rem;opacity:0.5">개인 여행 참고용. 현지 정보는 출발 전 최신 정보로 확인하세요.</span>
 </footer>
 
-<!-- ═══════════ LEAFLET ═══════════ -->
+<!-- ═══════════ LEAFLET JS ═══════════ -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  const map = L.map('map', { zoomControl: true }).setView([43.2, 141.5], 7);
+/* ════════════════════════════
+   MAIN ROUTE MAP
+════════════════════════════ */
+const map = L.map('map', { scrollWheelZoom: false }).setView([43.2, 141.5], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxZoom: 19,
+}).addTo(map);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
-  }).addTo(map);
+const ROUTE = [
+  { n:1, name:'신치토세 / 삿포로', day:'Day 1', lat:42.9236, lng:141.3410 },
+  { n:2, name:'오타루',            day:'Day 2', lat:43.1907, lng:140.9944 },
+  { n:3, name:'비에이',            day:'Day 3', lat:43.5850, lng:142.4722 },
+  { n:4, name:'후라노',            day:'Day 4', lat:43.3415, lng:142.3832 },
+  { n:5, name:'소운쿄',            day:'Day 5', lat:43.7261, lng:142.9536 },
+  { n:6, name:'도야호',            day:'Day 6', lat:42.6100, lng:140.8560 },
+  { n:7, name:'노보리베츠',        day:'Day 7', lat:42.4571, lng:141.1620 },
+  { n:8, name:'삿포로 (복귀)',     day:'Day 8', lat:43.0618, lng:141.3545 },
+];
+L.polyline(ROUTE.map(s => [s.lat, s.lng]), {
+  color:'#40916c', weight:3, dashArray:'10,7', opacity:0.8
+}).addTo(map);
+ROUTE.forEach(s => {
+  L.marker([s.lat, s.lng], { icon: L.divIcon({
+    html:`<div style="width:36px;height:36px;background:linear-gradient(135deg,#1b4332,#52b788);border:2.5px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;box-shadow:0 2px 10px rgba(0,0,0,0.35)">${s.n}</div>`,
+    className:'', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
+  })}).addTo(map)
+    .bindPopup(`<b style="color:#1b4332">${s.n}. ${s.name}</b><br><span style="color:#40916c;font-size:0.82em">${s.day}</span>`);
+});
 
-  /* ── 루트 거점 (큰 원형 번호 마커) ── */
-  const stops = [
-    { n:1, name:'신치토세 / 삿포로', day:'Day 1', lat:42.9236, lng:141.3410 },
-    { n:2, name:'오타루',            day:'Day 2', lat:43.1907, lng:140.9944 },
-    { n:3, name:'비에이',            day:'Day 3', lat:43.5850, lng:142.4722 },
-    { n:4, name:'후라노',            day:'Day 4', lat:43.3415, lng:142.3832 },
-    { n:5, name:'소운쿄',            day:'Day 5', lat:43.7261, lng:142.9536 },
-    { n:6, name:'도야호',            day:'Day 6', lat:42.6100, lng:140.8560 },
-    { n:7, name:'노보리베츠',        day:'Day 7', lat:42.4571, lng:141.1620 },
-    { n:8, name:'삿포로 (복귀)',     day:'Day 8', lat:43.0618, lng:141.3545 },
-  ];
+/* ════════════════════════════
+   MINI-MAP SYSTEM
+════════════════════════════ */
+const TYPES = {
+  sight:  { label:'관광',   emoji:'🏛',  bg:'#2a9d8f' },
+  food:   { label:'음식점', emoji:'🍜',  bg:'#e05c20' },
+  cafe:   { label:'카페',   emoji:'☕',  bg:'#795548' },
+  nature: { label:'자연',   emoji:'🌿',  bg:'#40916c' },
+  onsen:  { label:'온천',   emoji:'♨️', bg:'#0096c7' },
+  shop:   { label:'쇼핑',   emoji:'🛍',  bg:'#9b5de5' },
+  market: { label:'시장',   emoji:'🏪',  bg:'#f4a261' },
+};
 
-  L.polyline(stops.map(s => [s.lat, s.lng]), {
-    color: '#40916c', weight: 3, dashArray: '10,7', opacity: 0.8
-  }).addTo(map);
+function spotIcon(type) {
+  const c = TYPES[type] || { emoji:'📍', bg:'#666' };
+  return L.divIcon({
+    html: `<div style="width:30px;height:30px;background:${c.bg};border:2.5px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">${c.emoji}</div>`,
+    className:'', iconSize:[30,30], iconAnchor:[15,15], popupAnchor:[0,-18]
+  });
+}
 
-  stops.forEach(s => {
-    const icon = L.divIcon({
-      html: `<div style="width:36px;height:36px;background:linear-gradient(135deg,#1b4332,#52b788);border:2.5px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;box-shadow:0 2px 10px rgba(0,0,0,0.35);">${s.n}</div>`,
-      className:'', iconSize:[36,36], iconAnchor:[18,18], popupAnchor:[0,-22]
-    });
-    L.marker([s.lat, s.lng], { icon }).addTo(map)
-      .bindPopup(`<b style="color:#1b4332">${s.n}. ${s.name}</b><br><span style="color:#40916c;font-size:0.82em">${s.day}</span>`);
+const SPOTS = {
+  1: [
+    { name:'오도리 공원',       type:'nature', lat:43.0618, lng:141.3504, desc:'삿포로 중심 공원. 봄 라일락·여름 맥주 축제 명소. TV탑 전망대 ¥1,000.' },
+    { name:'삿포로 TV탑',       type:'sight',  lat:43.0614, lng:141.3556, desc:'높이 147m. 오도리 공원 전경 조망. 야경도 환상적.' },
+    { name:'라멘 횡초',         type:'food',   lat:43.0593, lng:141.3537, desc:'8개 라멘 가게 밀집 골목. 미소·쇼유·시오 스타일 비교 가능.' },
+    { name:'스스키노',          type:'sight',  lat:43.0527, lng:141.3567, desc:'삿포로 최대 번화가. 징기스칸·이자카야·카이센동 밀집.' },
+    { name:'삿포로 맥주원',     type:'food',   lat:43.0714, lng:141.3810, desc:'홋카이도 맥주 역사 박물관. 시음 세트 ¥600~. 맥주 정원 인기.' },
+    { name:'다누키코지 상점가',  type:'shop',   lat:43.0566, lng:141.3519, desc:'삿포로 최대 아케이드 상점가. 기념품·과자·잡화 쇼핑.' },
+  ],
+  2: [
+    { name:'오타루 운하',      type:'sight',  lat:43.1978, lng:141.0022, desc:'레트로 창고 늘어선 1.1km 운하. 석양·야경 명소. 캔들 크루즈도 운영.' },
+    { name:'사카이마치 거리',  type:'shop',   lat:43.1884, lng:141.0072, desc:'메이지·다이쇼 벽돌 건물 거리. 유리공예·오르골·과자 숍 밀집.' },
+    { name:'르타오 본점',      type:'cafe',   lat:43.1906, lng:141.0071, desc:'더블 프로마쥬 치즈케이크가 압도적. 오타루 필수 카페. 5층 전망대 무료.' },
+    { name:'키타이치 유리관',  type:'shop',   lat:43.1910, lng:141.0052, desc:'100년 역사 유리공예 숍. 체험 공방도 운영.' },
+    { name:'오타루 오르골당',  type:'shop',   lat:43.1906, lng:141.0058, desc:'4층 규모 오르골 전문점. 커플 쇼핑 명소.' },
+    { name:'오타루 수족관',    type:'sight',  lat:43.2203, lng:140.9931, desc:'바다사자·물개 쇼. 바다 전망 노천 수조 인기.' },
+  ],
+  3: [
+    { name:'청의 호수 (시로가네)',    type:'nature', lat:43.5218, lng:142.5066, desc:'에메랄드빛 신비 호수. 오전이 수면 반사 가장 아름다움.' },
+    { name:'패치워크의 길 뷰포인트', type:'nature', lat:43.6127, lng:142.4550, desc:'체크무늬처럼 펼쳐지는 비에이 언덕 드라이브 핵심 구간.' },
+    { name:'켄과 메리의 나무',        type:'nature', lat:43.6230, lng:142.4533, desc:'1972년 닛산 광고로 유명한 포플러 나무. 비에이 상징.' },
+    { name:'마일드 세분 언덕',        type:'nature', lat:43.5934, lng:142.5148, desc:'7개의 완만한 언덕. 일출 때 역광 실루엣이 아름다움.' },
+    { name:'비에이 카페 (역 근처)',   type:'cafe',   lat:43.5867, lng:142.4729, desc:'드라이브 중 잠깐 쉬어가는 로컬 카페. 홋카이도 우유 라테 추천.' },
+  ],
+  4: [
+    { name:'팜 도미타',      type:'nature', lat:43.3440, lng:142.3977, desc:'홋카이도 라벤더 성지. 6~7월 만개. 입장 무료. 소프트크림·오일 판매.' },
+    { name:'닝구르 테라스',  type:'shop',   lat:43.3406, lng:142.3792, desc:'숲속 공예 갤러리 15개. 저녁 조명이 환상적. 신후라노 프린스 호텔 내.' },
+    { name:'후라노 마르쉐',  type:'market', lat:43.3503, lng:142.3822, desc:'현지 농산물·잼·와인·공예품 마켓. 시식 코너 다양.' },
+    { name:'후라노 치즈공방', type:'food',  lat:43.3580, lng:142.3683, desc:'치즈·버터 만들기 체험 ¥500~. 신선 치즈·아이스크림 판매.' },
+    { name:'후라노 와인공장', type:'sight', lat:43.3218, lng:142.3571, desc:'홋카이도 와인 제조 공장 견학. 무료 시음 가능.' },
+  ],
+  5: [
+    { name:'소운쿄 온천가',          type:'onsen',  lat:43.7261, lng:142.9536, desc:'소운쿄 협곡 료칸 밀집 지역. 9종 천질 온천. 족탕 무료 개방.' },
+    { name:'소운쿄 로프웨이',         type:'sight',  lat:43.7270, lng:142.9598, desc:'해발 1,520m 구로다케 7부까지. 협곡 파노라마 ¥2,000.' },
+    { name:'류세이노타키 (유성 폭포)', type:'nature', lat:43.7399, lng:143.0017, desc:'높이 90m. 긴가노타키와 "쌍폭" 트레킹 코스 왕복 30분.' },
+    { name:'긴가노타키 (은하 폭포)',  type:'nature', lat:43.7408, lng:143.0046, desc:'높이 120m 웅장한 폭포. 류세이노타키와 세트 관람.' },
+  ],
+  6: [
+    { name:'도야호 온천 거리',  type:'onsen',  lat:42.6028, lng:140.8548, desc:'온천 료칸이 호수 남쪽을 둘러쌈. 여름 불꽃놀이 매일 21시 개최.' },
+    { name:'도야호 유람선',     type:'sight',  lat:42.5991, lng:140.8547, desc:'나카지마섬 일주 유람선. 약 50분 ¥1,500. 섬 내 사슴 서식.' },
+    { name:'우스산 로프웨이',   type:'sight',  lat:42.5369, lng:140.8522, desc:'분화구 전망대. 도야호·쇼와신잔 파노라마 ¥1,800.' },
+    { name:'쇼와신잔',          type:'nature', lat:42.5354, lng:140.8614, desc:'1943년 분화로 솟아오른 기생 화산. 간헐 분연 활동 중.' },
+  ],
+  7: [
+    { name:'노보리베츠 온천가',      type:'onsen',  lat:42.4539, lng:141.1585, desc:'9종류 천질 온천 "온천 백화점". 당일치기 입욕 가능 숙소 다수.' },
+    { name:'지고쿠다니 (지옥계곡)',  type:'nature', lat:42.4571, lng:141.1620, desc:'유황 연기 피어오르는 화산 지형. 산책로 정비 완료. 무료 입장.' },
+    { name:'오유누마 천연 족탕',     type:'onsen',  lat:42.4639, lng:141.1657, desc:'120°C 유황 연못. 인근 족탕은 무료. 오유누마강 물길을 따라 산책 가능.' },
+    { name:'노보리베츠 곰 목장',    type:'sight',  lat:42.4698, lng:141.1654, desc:'홋카이도 불곰 서식. 먹이주기 체험 + 정상 전망대 ¥2,800.' },
+  ],
+  8: [
+    { name:'니조 시장',          type:'market', lat:43.0596, lng:141.3570, desc:'삿포로 재래시장. 카이센동·성게 덮밥 아침 식사. 새벽 5시 영업 시작.' },
+    { name:'삿포로역 지하상가',  type:'shop',   lat:43.0688, lng:141.3507, desc:'폴라스·오로라타운. 기념품·과자 출발 전 마지막 쇼핑.' },
+    { name:'홋카이도 구 도청',   type:'sight',  lat:43.0639, lng:141.3479, desc:'붉은 벽돌 청사. 봄 라일락 명소. 내부 무료 공개.' },
+    { name:'신치토세 공항',      type:'shop',   lat:42.7752, lng:141.6922, desc:'로이즈·시로이코이비토·마루세이 버터 샌드. 공항 내 온천·영화관도 있음.' },
+  ],
+};
+
+/* ── 범례 렌더링 ── */
+function buildLegend(dayNum, spots) {
+  const usedTypes = [...new Set(spots.map(s => s.type))];
+  const el = document.getElementById(`legend-${dayNum}`);
+  if (!el) return;
+  el.innerHTML = usedTypes.map(t => {
+    const c = TYPES[t] || { label: t, bg: '#888' };
+    return `<span><span class="legend-dot" style="background:${c.bg}"></span>${c.label}</span>`;
+  }).join('');
+}
+
+/* ── 미니맵 초기화 ── */
+const TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+Object.entries(SPOTS).forEach(([dayStr, spots]) => {
+  const day = parseInt(dayStr);
+  const mini = L.map(`mini-map-${day}`, {
+    zoomControl: true,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    attributionControl: false,
   });
 
-  /* ── 추천 스팟 정의 (Day별 색상 + 레이어) ── */
-  const DAY_COLORS = {
-    1: '#e63946',  // 빨강  — 삿포로
-    2: '#457b9d',  // 파랑  — 오타루
-    3: '#2a9d8f',  // 틸    — 비에이
-    4: '#9b5de5',  // 보라  — 후라노
-    5: '#e9c46a',  // 황금  — 소운쿄
-    6: '#0096c7',  // 스카이— 도야호
-    7: '#e76f51',  // 주황  — 노보리베츠
-    8: '#6a994e',  // 연두  — 공항
-  };
+  L.tileLayer(TILE_URL, { maxZoom: 19 }).addTo(mini);
 
-  // 태그 색상 (popup용)
-  const TAG_CSS = {
-    '관광': '#2a9d8f', '먹방': '#e05c20', '온천': '#0096c7',
-    '쇼핑': '#b5838d', '포토': '#9b5de5', '자연': '#40916c', '유람': '#457b9d',
-  };
-
-  function tagHtml(label) {
-    const c = TAG_CSS[label] || '#888';
-    return `<span class="spot-tag" style="background:${c}">${label}</span>`;
-  }
-
-  const SPOTS = [
-    /* Day 1 — 삿포로 */
-    { day:1, name:'오도리 공원',      lat:43.0618, lng:141.3504, tags:['관광','포토'],  desc:'TV탑과 꽃밭이 펼쳐지는 삿포로 중심 공원. TV탑 전망대 ¥1,000.' },
-    { day:1, name:'삿포로 TV탑',      lat:43.0614, lng:141.3560, tags:['관광','포토'],  desc:'높이 147m. 오도리 공원 전경을 조망. 야경도 환상적.' },
-    { day:1, name:'삿포로 라멘 횡초', lat:43.0593, lng:141.3537, tags:['먹방'],          desc:'8개 라멘 가게 밀집. 미소·쇼유·시오라멘 비교 체험 가능.' },
-    { day:1, name:'스스키노 교차로',  lat:43.0527, lng:141.3567, tags:['먹방','관광'],  desc:'삿포로 최대 번화가. 징기스칸·해산물 이자카야가 모여 있음.' },
-    { day:1, name:'삿포로 맥주 박물관', lat:43.0714, lng:141.3810, tags:['관광','먹방'], desc:'홋카이도 맥주 역사 전시. 시음 세트 ¥600~. 정원 가든 글릴도 인기.' },
-
-    /* Day 2 — 오타루 */
-    { day:2, name:'오타루 운하',          lat:43.1978, lng:141.0022, tags:['포토','관광'], desc:'레트로 창고가 늘어선 1.1km 운하. 석양·야경 모두 환상적.' },
-    { day:2, name:'사카이마치 거리',      lat:43.1884, lng:141.0072, tags:['관광','쇼핑'], desc:'메이지·다이쇼 시대 벽돌 건물이 늘어선 거리. 유리공예·오르골 숍 밀집.' },
-    { day:2, name:'르타오 본점',          lat:43.1906, lng:141.0071, tags:['먹방'],          desc:'오타루 대표 과자점. 더블 프로마쥬 치즈케이크가 압도적으로 맛있음.' },
-    { day:2, name:'키타이치 유리관',      lat:43.1910, lng:141.0052, tags:['쇼핑','관광'], desc:'100년 역사의 유리공예 숍. 체험 공방도 운영.' },
-    { day:2, name:'오타루 수족관',        lat:43.2203, lng:140.9931, tags:['관광'],          desc:'바다사자·물개 쇼. 바다 전망 노천 수조 인기.' },
-
-    /* Day 3 — 비에이 */
-    { day:3, name:'청의 호수(시로가네)', lat:43.5218, lng:142.5066, tags:['포토','자연'],  desc:'에메랄드빛 신비로운 색의 인공 호수. 일출~오전이 반사가 아름다움.' },
-    { day:3, name:'패치워크의 길 전망대', lat:43.6127, lng:142.4550, tags:['포토','자연'],  desc:'체크무늬처럼 보이는 비에이 언덕 드라이브 코스 핵심 구간.' },
-    { day:3, name:'켄과 메리의 나무',    lat:43.6230, lng:142.4533, tags:['포토','자연'],  desc:'1972년 닛산 광고로 유명해진 포플러 나무. 비에이 상징.' },
-    { day:3, name:'마일드 세분 언덕',    lat:43.5934, lng:142.5148, tags:['포토','자연'],  desc:'7개의 완만한 언덕이 이어지는 경관. 일출 때 가장 아름다움.' },
-    { day:3, name:'세진클럽 (사계의 탑)', lat:43.5742, lng:142.4783, tags:['관광','포토'], desc:'비에이 구릉지대 전망 탑. 사방으로 펼쳐지는 파노라마.' },
-
-    /* Day 4 — 후라노 */
-    { day:4, name:'팜 도미타',       lat:43.3440, lng:142.3977, tags:['포토','자연'],  desc:'홋카이도 라벤더 성지. 6~7월 만개. 소프트크림·라벤더 향수 쇼핑.' },
-    { day:4, name:'닝구르 테라스',   lat:43.3406, lng:142.3792, tags:['관광','쇼핑'], desc:'숲속 갤러리 + 공예 숍 15개. 신후라노 프린스 호텔 부지 내. 저녁에 조명이 예쁨.' },
-    { day:4, name:'후라노 마르쉐',   lat:43.3503, lng:142.3822, tags:['쇼핑','먹방'], desc:'후라노 현지 농산물·잼·와인·공예품 마켓. 시식 코너 다양.' },
-    { day:4, name:'후라노 치즈공방', lat:43.3580, lng:142.3683, tags:['먹방'],          desc:'치즈·버터 만들기 체험 (¥500~). 신선 치즈·아이스크림 판매.' },
-
-    /* Day 5 — 소운쿄 */
-    { day:5, name:'소운쿄 협곡 산책로',       lat:43.7261, lng:142.9536, tags:['자연','포토'], desc:'24km에 달하는 협곡. 주상절리 절벽과 에조마쓰 원생림.' },
-    { day:5, name:'류세이노타키 (유성 폭포)', lat:43.7399, lng:143.0017, tags:['자연','포토'], desc:'높이 90m 폭포. 은하폭포와 쌍을 이루며 "쌍폭" 코스로 트레킹.' },
-    { day:5, name:'긴가노타키 (은하 폭포)',   lat:43.7408, lng:143.0046, tags:['자연','포토'], desc:'높이 120m의 웅장한 폭포. 류세이노타키와 함께 왕복 약 30분.' },
-    { day:5, name:'소운쿄 로프웨이',          lat:43.7270, lng:142.9598, tags:['관광','포토'], desc:'해발 1,520m 구로다케 7부 능선까지 이동. 정상에서 협곡 파노라마 ¥2,000.' },
-
-    /* Day 6 — 도야호 */
-    { day:6, name:'도야호 유람선',    lat:43.5991, lng:140.8547, tags:['유람','포토'],  desc:'호수 중앙 나카지마섬 일주 유람선. 왕복 약 50분 ¥1,500.' },
-    { day:6, name:'쇼와신잔',         lat:42.5354, lng:140.8614, tags:['자연','포토'],  desc:'1943년 분화로 솟아오른 기생 화산. 간헐적 분연 활동 중.' },
-    { day:6, name:'우스산 로프웨이',  lat:42.5369, lng:140.8522, tags:['관광','포토'],  desc:'분화구 전망대까지 올라가는 로프웨이. 도야호·쇼와신잔 한눈에 ¥1,800.' },
-    { day:6, name:'도야호 온천 거리', lat:42.6028, lng:140.8548, tags:['온천','관광'], desc:'온천 료칸·호텔이 호수를 둘러싸고 있음. 여름 불꽃놀이(4~10월 매일) 명소.' },
-
-    /* Day 7 — 노보리베츠 */
-    { day:7, name:'지고쿠다니 (지옥계곡)', lat:42.4571, lng:141.1620, tags:['자연','포토'], desc:'유황 연기 피어오르는 화산 지형. 산책로 정비 완료. 무료 입장.' },
-    { day:7, name:'오유누마',              lat:42.4639, lng:141.1657, tags:['자연','포토'], desc:'120°C 황백색 유황 연못. 오유누마강 천연 족탕 (무료) 인기.' },
-    { day:7, name:'노보리베츠 곰 목장',   lat:42.4698, lng:141.1654, tags:['관광'],          desc:'홋카이도 불곰 서식. 곰 먹이주기 체험. 산 정상 전망대 병설. ¥2,800.' },
-    { day:7, name:'노보리베츠 온천가',    lat:42.4539, lng:141.1585, tags:['온천','쇼핑'],  desc:'9종류 천질 온천이 솟는 "온천 백화점". 일일 입욕 가능한 숙소 다수.' },
-
-    /* Day 8 — 공항 */
-    { day:8, name:'삿포로 아침 시장',   lat:43.0649, lng:141.3541, tags:['먹방'],          desc:'새벽 5시부터 영업. 카이센동·성게 덮밥 조식으로 마무리.' },
-    { day:8, name:'니조 시장',          lat:43.0596, lng:141.3570, tags:['먹방','쇼핑'],  desc:'삿포로 재래시장. 해산물 신선식품·과자 기념품. 즉석 회 시식 코너 있음.' },
-    { day:8, name:'신치토세 공항',      lat:42.7752, lng:141.6922, tags:['쇼핑'],          desc:'로이즈·시로이코이비토·마루세이 버터 샌드. 공항 내 온천·영화관도 있음.' },
-  ];
-
-  /* ── 레이어 그룹 생성 ── */
-  const dayLayers = {};
-  const dayNames = {
-    1:'Day 1 삿포로', 2:'Day 2 오타루', 3:'Day 3 비에이',
-    4:'Day 4 후라노', 5:'Day 5 소운쿄', 6:'Day 6 도야호',
-    7:'Day 7 노보리베츠', 8:'Day 8 공항',
-  };
-
-  for (let d = 1; d <= 8; d++) {
-    dayLayers[d] = L.layerGroup();
-  }
-
-  SPOTS.forEach(spot => {
-    const color = DAY_COLORS[spot.day];
-    const icon = L.divIcon({
-      html: `<div style="width:14px;height:14px;background:${color};border:2.5px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
-      className:'', iconSize:[14,14], iconAnchor:[7,7], popupAnchor:[0,-10]
-    });
-    const tagsHtml = spot.tags.map(tagHtml).join(' ');
-    const popup = `<div style="min-width:160px">
-      <div style="font-weight:700;font-size:0.9rem;margin-bottom:4px">${spot.name}</div>
-      <div style="margin-bottom:6px">${tagsHtml}</div>
-      <div style="font-size:0.83rem;color:#555;line-height:1.5">${spot.desc}</div>
-    </div>`;
-    L.marker([spot.lat, spot.lng], { icon })
-      .bindPopup(popup, { maxWidth: 240 })
-      .addTo(dayLayers[spot.day]);
+  spots.forEach(s => {
+    L.marker([s.lat, s.lng], { icon: spotIcon(s.type) })
+      .addTo(mini)
+      .bindPopup(
+        `<b>${s.name}</b><br><small style="color:#555;line-height:1.5">${s.desc}</small>`,
+        { maxWidth: 220 }
+      );
   });
 
-  /* ── 기본: 전체 레이어 활성화 ── */
-  Object.values(dayLayers).forEach(lg => lg.addTo(map));
+  const bounds = L.latLngBounds(spots.map(s => [s.lat, s.lng]));
+  mini.fitBounds(bounds, { padding: [36, 36], maxZoom: 15 });
 
-  /* ── Layer Control ── */
-  const overlays = {};
-  for (let d = 1; d <= 8; d++) {
-    const c = DAY_COLORS[d];
-    const label = `<span style="display:inline-flex;align-items:center;gap:6px"><span style="width:11px;height:11px;background:${c};border:2px solid #fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.3);flex-shrink:0"></span>${dayNames[d]}</span>`;
-    overlays[label] = dayLayers[d];
-  }
-
-  L.control.layers(null, overlays, {
-    collapsed: false,
-    position: 'topright'
-  }).addTo(map);
+  buildLegend(day, spots);
+});
 </script>
 </body>
 </html>
